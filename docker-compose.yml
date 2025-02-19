@@ -3,13 +3,26 @@ services:
     build: cartx-client
     container_name: cartx-client
     ports:
-      - "8080:80"
-    restart: unless-stopped
+      - "8080:4200"
+    volumes:
+      - ./cartx-client:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - WATCHPACK_POLLING_INTERVAL=1000
     networks:
       - cartx-network
   cartx-product-service:
     build: cartx-services/product-service
     container_name: cartx-product-service
+    volumes:
+      - ./cartx-services/product-service:/src
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - ASPNETCORE_URLS=http://+:80
+    - DOTNET_USE_POLLING_FILE_WATCHER=1
+    command: dotnet watch --project product-service run --no-launch-profile
     ports:
       - "8081:80"
     networks:
