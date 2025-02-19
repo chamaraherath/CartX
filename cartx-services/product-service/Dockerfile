@@ -1,29 +1,22 @@
-# Use the official .NET SDK image to build the app
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
-# Set the working directory in the container
+# Base image for runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-
-# Copy the project files into the container
-COPY . .
-
-# Restore the NuGet packages
-RUN dotnet restore
-
-# Publish the application to a folder
-RUN dotnet publish -c Release -o /app/publish
-
-# Use the official .NET runtime image for the final image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
-
-# Set the working directory in the final image
-WORKDIR /app
-
-# Copy the published application from the build stage
-COPY --from=build /app/publish .
-
-# Expose the port the app will run on
 EXPOSE 80
 
-# Set the entry point for the container to run the application
+# Build image with SDK
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["product-service.csproj", "./"]
+RUN dotnet restore "product-service.csproj"
+COPY . .
+RUN dotnet build "product-service.csproj" -c Debug -o /app/build
+
+# Publish app
+FROM build AS publish
+RUN dotnet publish "product-service.csproj" -c Debug -o /app/publish
+
+# Final runtime container (Only for normal execution)
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "product-service.dll"]
