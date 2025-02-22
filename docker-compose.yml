@@ -1,6 +1,7 @@
 services:
   cartx-client:
     build: cartx-client
+    image: cartx-client:latest
     container_name: cartx-client
     ports:
       - "8080:4200"
@@ -15,6 +16,7 @@ services:
       - cartx-network
   cartx-product-service:
     build: cartx-services/product-service
+    image: cartx-product-service:latest
     container_name: cartx-product-service
     volumes:
       - ./cartx-services/product-service:/src

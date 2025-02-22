@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service # required
+  labels: # Add this label - required for the service to be able to discover the pods
+    app: product-service
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: product-service # Important
+  template: # important for the service to be able to discover the pods
+    metadata:
+      labels:
+        app: product-service # Important
+    spec:
+      containers:
+        - name: cartx-product-service
+          image: cartx-product-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "512Mi" #  512Mi is the maximum memory the container can use
+              cpu: "500m" # 500m is the maximum CPU the container can use
+            requests:
+              memory: "256Mi" # 256Mi is the minimum memory the container can use
+              cpu: "250m"
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: ASPNETCORE_URLS
+              value: "http://+:80"
