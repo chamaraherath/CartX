@@ -1,8 +1,8 @@
-<button type="button" class="btn btn-primary position-relative me-2">
+<button routerLink="cart" type="button" class="btn btn-primary position-relative me-2">
     Cart
     <i class="bi bi-cart3"></i>
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        6
+        {{ itemCount }}
         <span class="visually-hidden">cart item count</span>
     </span>
 </button>

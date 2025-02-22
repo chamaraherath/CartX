@@ -12,7 +12,7 @@ export class ProductService {
     name: "Dave's Killer Bread 21 Whole Grains and Seeds",
     brand: "Dave's Killer Bread",
     category: "Breads",
-    price: 5.99,
+    price: 1,
     description: "Organic bread packed with 21 whole grains and seeds.",
     imageUrl: "https://m.media-amazon.com/images/I/81tNeQX7bGL.jpg"
   },
