@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cartx-product-service
+  name: cartx-client
 spec:
   selector:
-    app: product-service
+    app: cartx-client
   ports:
     - protocol: TCP
       port: 80

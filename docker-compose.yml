@@ -1,10 +1,10 @@
 services:
   cartx-client:
-    build: cartx-client
-    image: cartx-client:latest
-    container_name: cartx-client
+    build: cartx-client # Path to the Dockerfile
+    image: cartx-client:latest # Name of the image
+    container_name: cartx-client # Name of the container
     ports:
-      - "8080:4200"
+      - "8080:80"
     volumes:
       - ./cartx-client:/app
       - /app/node_modules

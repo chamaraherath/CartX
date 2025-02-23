@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartx-client
+  labels:
+    app: cartx-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cartx-client
+  template:
+    metadata:
+      labels:
+        app: cartx-client
+    spec:
+      containers:
+        - name: cartx-client
+          image: cartx-client:latest
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 80

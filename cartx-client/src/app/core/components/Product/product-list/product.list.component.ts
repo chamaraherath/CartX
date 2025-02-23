@@ -1,6 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ProductCardComponent } from "../product-card/product.card.component";
 import { ProductService } from "../../../../services/product.service";
+import { Product } from "../../../../models/product.model";
 
 @Component({
     selector: "app-product-list",
@@ -10,12 +11,16 @@ import { ProductService } from "../../../../services/product.service";
     imports: [ProductCardComponent],
 })
 
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
 
-    products: Array<any> = [];
-    productService: ProductService;
+    products: Product[] = [];
     constructor(private _productService: ProductService) {
-        this.productService = _productService;
-        this.products = this.productService.getProducts();
+    }
+    ngOnInit() {
+        debugger;
+        this._productService.getProducts().subscribe({
+            next: (data) => this.products = data,
+            error: (err) => console.error('Error fetching products:', err)
+        });
     }
 }

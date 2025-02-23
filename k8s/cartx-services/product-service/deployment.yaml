@@ -5,7 +5,7 @@ metadata:
   labels: # Add this label - required for the service to be able to discover the pods
     app: product-service
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: product-service # Important
