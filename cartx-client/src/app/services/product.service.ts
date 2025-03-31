@@ -12,7 +12,6 @@ export class ProductService {
   private apiUrl = '/api/v1/products';
 
   getProducts(): Observable<Product[]> {
-    debugger;
     return this.http.get<Product[]>(this.apiUrl);
   }
 }

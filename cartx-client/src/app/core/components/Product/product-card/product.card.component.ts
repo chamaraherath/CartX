@@ -14,7 +14,6 @@ export class ProductCardComponent {
     constructor(private cartService: CartService) { }
 
     addToCart(product: Product, quantity: number) {
-        debugger;
         this.cartService.addToCart(product, quantity);
     }
 }
