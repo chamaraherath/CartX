@@ -50,5 +50,43 @@ namespace ProductService.UnitTests.Controllers
             Assert.IsNotNull(productsResult);
             Assert.AreEqual(2, productsResult.Count());
         }
+
+        [TestMethod]
+        public async Task Products_ReturnsOkResult_WithEmptyListOfProducts()
+        {
+            // Arrange
+            _productRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Product>());
+
+            // Act
+            var result = await _productController.Products();
+
+            // Assert
+            var okResult = result.Result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+
+            var productsResult = okResult.Value as IEnumerable<Product>;
+            Assert.IsNotNull(productsResult);
+            Assert.IsFalse(productsResult.Any());
+        }
+
+        [TestMethod]
+        public async Task Products_ReturnsOkResult_WhenRepositoryReturnsNull()
+        {
+            // Arrange
+            _productRepositoryMock.Setup(x => x.GetAllAsync()).Returns(Task.FromResult<IEnumerable<Product>>(null));
+
+            // Act
+            var result = await _productController.Products();
+
+            // Assert
+            var okResult = result.Result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+
+            var productsResult = okResult.Value as IEnumerable<Product>;
+            Assert.IsNotNull(productsResult); // ASP.NET Core typically returns an empty collection rather than null for an OkObjectResult with a null value.
+            Assert.IsFalse(productsResult.Any());
+        }
     }
 }
